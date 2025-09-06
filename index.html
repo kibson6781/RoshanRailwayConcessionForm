@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Online Railway Concession System</title>
+  <style>
+    body {
+      background: linear-gradient(rgba(255,255,255,0.94), rgba(255,255,255,0.94)),
+                  url('SIES-1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: 32px auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 0 20px 0 #0071c940;
+      padding: 28px 28px 24px 28px;
+      position: relative;
+      z-index: 1;
+    }
+    h2 {
+      text-align: center;
+      color: #1976d2;
+      margin-bottom: 20px;
+    }
+    .tab-buttons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 14px;
+      gap: 8px;
+    }
+    .tab-buttons button {
+      padding: 7px 18px;
+      border: none; outline: none;
+      background: #e3eefa;
+      color: #1976d2;
+      font-weight: bold;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .tab-buttons button.active {
+      background: #1976d2;
+      color: #fff;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      margin-top: 8px;
+    }
+    label {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    input, select {
+      padding: 7px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      font-size:1rem;
+    }
+    .btn {
+      margin-top: 8px;
+      background: #1976d2;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: inline-block;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background: #1254a1;
+    }
+    table {
+      width: 100%;
+      margin-top: 18px;
+      border-collapse: collapse;
+      font-size: .98em;
+    }
+    th, td {
+      border-bottom: 1px solid #eaeaea;
+      padding: 7px;
+      text-align: left;
+    }
+    th {
+      background: #e3eefa;
+      color: #1976d2;
+    }
+    .logout {
+      text-align: right;
+      margin-bottom: 3px;
+    }
+    .logout button {
+      background: none; border: none; color: #1976d2; cursor:pointer;
+      font-size: .99em;
+    }
+    .admin-action-btn {
+      margin-right: 5px;
+      padding: 3px 9px;
+      font-size: .92em;
+      border-radius: 3px;
+      border: none;
+      color: #fff;
+      cursor: pointer;
+      background: #2196f3;
+      transition: background .15s;
+    }
+    .admin-action-btn.decline {background: #e74c3c;}
+    .admin-action-btn:disabled {background: #b6cbe7; cursor:default;}
+    .admin-section-title {margin-top:15px; font-size:1.06em; color:#1976d2;}
+    .add-student-section {margin-top:24px; padding:16px; background:#f8fbff; border-radius:8px;}
+    #pdfModal {
+      display:none;
+      position:fixed;
+      top:0; left:0; width:100vw; height:100vh;
+      background:#0007;
+      z-index:1000;
+      align-items:center;
+      justify-content:center;
+    }
+    #pdfModal .modalbox {
+      background: white;
+      border-radius: 14px;
+      padding: 30px 24px 24px 24px;
+      margin:auto;
+      width:330px;
+      box-shadow:0 2px 16px #1976d255;
+      text-align:center;
+    }
+    #pdfModal input[type=file]{ margin-bottom: 12px; width:99%; }
+    .autocomplete-items {
+      position: absolute;
+      border: 1px solid #d4d4d4;
+      border-top: none;
+      z-index: 99;
+      top: 100%; left: 0; right: 0;
+      background: white;
+      max-height:180px; overflow-y:auto;
+      font-size: 1rem;
+    }
+    .autocomplete-items div {
+      padding: 8px;
+      cursor: pointer;
+      background: #fff;
+    }
+    .autocomplete-items div:hover {
+      background: #e3eefa;
+    }
+    @media (max-width: 600px){
+      .container { padding: 13px 2px; max-width: 98vw;}
+      table, th, td { font-size: .91em;}
+      #pdfModal .modalbox{width:95vw;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <h2>Online Railway Concession</h2>
+    <div class="tab-buttons" id="tabBtns">
+      <button id="loginTab" class="active">Student Login</button>
+      <button id="registerTab">Register</button>
+      <button id="adminTab">Admin Login</button>
+    </div>
+    <!-- Student Login Form -->
+    <form id="loginForm">
+      <label>Email</label>
+      <input type="email" id="loginEmail" required autocomplete="username"/>
+      <label>Password</label>
+      <input type="password" id="loginPass" required autocomplete="current-password"/>
+      <button class="btn" type="submit">Login</button>
+    </form>
+    <!-- Registration Form -->
+    <form id="registerForm" style="display:none">
+      <label>Name</label>
+      <input type="text" id="regName" required>
+      <label>Age</label>
+      <input type="number" id="regAge" min="10" required>
+      <label>College Name</label>
+      <select id="regCollege" required>
+        <option>SIES (Nerul) College of Arts, Science and Commerce</option>
+      </select>
+      <label>Email</label>
+      <input type="email" id="regEmail" required autocomplete="username">
+      <label>Password</label>
+      <input type="password" id="regPass" required autocomplete="new-password">
+      <button class="btn" type="submit">Register</button>
+    </form>
+    <!-- Admin Login Form -->
+    <form id="adminLoginForm" style="display:none">
+      <label>Email</label>
+      <input type="email" id="adminEmail" required autocomplete="username">
+      <label>Password</label>
+      <input type="password" id="adminPass" required autocomplete="current-password">
+      <button class="btn" type="submit">Login as Admin</button>
+    </form>
+  </div>
+  <!-- Student Dashboard -->
+  <div class="container" id="dashboard" style="display:none;position:relative;">
+    <h2>Apply for Concession</h2>
+    <div class="logout"><button id="logoutBtn">Logout</button></div>
+    <form id="concessionForm" autocomplete="off">
+      <label>Source Station</label>
+      <div style="position:relative;"><input id="source" type="text" required autocomplete="off"></div>
+      <label>Destination Station</label>
+      <div style="position:relative;"><input id="destination" type="text" required autocomplete="off"></div>
+      <label>Class</label>
+      <select id="ticketClass" required>
+        <option value="">Select</option>
+        <option>First Class</option>
+        <option>Second Class</option>
+      </select>
+      <label>Duration</label>
+      <select id="duration" required>
+        <option value="">Select</option>
+        <option>Monthly</option>
+        <option>Quarterly</option>
+      </select>
+      <button class="btn" type="submit">Request Pass</button>
+    </form>
+    <h3 style="margin-top:28px;font-size:1.07em; color:#1976d2;">Your Requests</h3>
+    <table id="requestsTable">
+      <thead>
+        <tr><th>Source</th><th>Destination</th><th>Class</th><th>Duration</th><th>Status / PDF</th></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <!-- Admin Dashboard -->
+  <div class="container" id="adminDashboard" style="display:none">
+    <div class="logout"><button id="adminLogoutBtn">Logout</button></div>
+    <h2>Admin Panel</h2>
+    <div class="admin-section-title"><b>All Requests</b></div>
+    <table id="adminRequestsTable">
+      <thead>
+        <tr>
+          <th>Student</th><th>Source</th><th>Destination</th><th>Class</th>
+          <th>Duration</th><th>Status</th><th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="admin-section-title"><b>All Students</b></div>
+    <table id="adminStudentsTable">
+      <thead>
+        <tr>
+          <th>Name</th><th>Email</th><th>Age</th><th>College</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div class="add-student-section">
+      <div style="font-weight:600;">Add Student</div>
+      <form id="adminAddStudentForm">
+        <input type="text" id="admStudName" placeholder="Name" required>
+        <input type="number" id="admStudAge" placeholder="Age" min="10" required>
+        <select id="admStudCollege" required>
+          <option>SIES (Nerul) College of Arts, Science and Commerce</option>
+        </select>
+        <input type="email" id="admStudEmail" placeholder="Email" required>
+        <input type="password" id="admStudPass" placeholder="Password" required>
+        <button class="btn" type="submit" style="margin-top:10px;">Add Student</button>
+      </form>
+    </div>
+    <div>
+     <label>Search Source:</label>
+     <div style="position:relative;"><input id="adminSourceSearch" type="text" autocomplete="off"></div>
+     <label>Search Destination:</label>
+     <div style="position:relative;"><input id="adminDestinationSearch" type="text" autocomplete="off"></div>
+    </div>
+  </div>
+  <!-- PDF Upload Modal -->
+  <div id="pdfModal">
+    <div class="modalbox">
+      <h3>Upload PDF for Request</h3>
+      <form id="pdfForm">
+        <input type="file" id="pdfFile" accept="application/pdf" required>
+        <button type="submit" class="btn">Upload</button>
+        <button type="button" class="btn" onclick="closePdfModal()" style="background:#ccc;color:#222;margin-left:7px;">Cancel</button>
+      </form>
+    </div>
+  </div>
+<script>
+  const stationNames = [
+    "Churchgate","Mumbai Central","Dadar","Bandra","Andheri","Borivali","Vasai Road","Virar","Dahanu Road","Mira Road","Kandivali","Malad",
+    "Goregaon","Jogeshwari","Santacruz","Vile Parle","Thane","Kalyan Junction","Kurla","Ghatkopar","Chembur","Wadala Road","Panvel",
+    "Vikhroli","Bhandup","Matunga","Lower Parel","Charni Road","Marine Lines","Masjid","Cotton Green","Mankhurd","Khar Road",
+    "Prabhadevi (formerly Elphinstone Road)","Sandhurst Road","King's Circle","Dockyard Road","Sion","Tilak Nagar","Vidyavihar",
+    "Chhatrapati Shivaji Maharaj Terminus (CSMT)","Byculla","Grant Road","Currey Road","Airoli","Nerul","Vashi","CBD Belapur","Kharghar",
+    "Juinagar","Koparkhairane","Seawoods","Ulhasnagar","Ambarnath","Badlapur","Karjat","Kasara","Titwala","Shahad","Ambernath","Dombivli",
+    "Diva","Mulund","Nahur","Kopar","Thakurli"
+  ];
+  function autocomplete(inp, arr) {
+    let currentFocus;
+    inp.addEventListener("input", function(e) {
+      let a, b, val = this.value;
+      closeAllLists();
+      if (!val) return false;
+      currentFocus = -1;
+      a = document.createElement("DIV");
+      a.setAttribute("class", "autocomplete-items");
+      this.parentNode.appendChild(a);
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i].toLowerCase().indexOf(val.toLowerCase()) !== -1) {
+          b = document.createElement("DIV");
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          b.addEventListener("click", function(e) {
+            inp.value = this.getElementsByTagName("input")[0].value;
+            closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+    });
+    inp.addEventListener("keydown", function(e) {
+      let x = this.parentNode.querySelectorAll(".autocomplete-items div");
+      if (x.length === 0) return;
+      if (e.keyCode == 40) { currentFocus++; addActive(x); }
+      else if (e.keyCode == 38) { currentFocus--; addActive(x); }
+      else if (e.keyCode == 13) {
+        e.preventDefault();
+        if (currentFocus > -1) if (x) x[currentFocus].click();
+      }
+    });
+    function addActive(x) {
+      if (!x) return false;
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      for (let i = 0; i < x.length; i++) x[i].classList.remove("autocomplete-active");
+    }
+    function closeAllLists(elmnt) {
+      let x = document.querySelectorAll(".autocomplete-items");
+      for (let i = 0; i < x.length; i++) if (elmnt != x[i] && elmnt != inp) x[i].parentNode.removeChild(x[i]);
+    }
+    document.addEventListener("click", function (e) { closeAllLists(e.target); });
+  }
+  document.addEventListener('DOMContentLoaded', function(){
+    autocomplete(document.getElementById("source"), stationNames);
+    autocomplete(document.getElementById("destination"), stationNames);
+    if(document.getElementById("adminSourceSearch")) autocomplete(document.getElementById("adminSourceSearch"), stationNames);
+    if(document.getElementById("adminDestinationSearch")) autocomplete(document.getElementById("adminDestinationSearch"), stationNames);
+    if(document.getElementById('admStudCollege')) {
+      document.getElementById('admStudCollege').innerHTML = '<option>SIES (Nerul) College of Arts, Science and Commerce</option>';
+    }
+    if(document.getElementById('regCollege')) {
+      document.getElementById('regCollege').innerHTML = '<option>SIES (Nerul) College of Arts, Science and Commerce</option>';
+    }
+  });
+  if(!localStorage.getItem('orc_users')) {
+    let users = [
+      {id: 1, email:'admin@college.com', pass:'admin123', name:'Admin', age:0, college:'- -', role:'admin'},
+      {id: 2, email:'student@demo.com', pass:'student', name:'Demo Student', age:20, college:'SIES (Nerul) College of Arts, Science and Commerce', role:'student'}
+    ];
+    localStorage.setItem('orc_users', JSON.stringify(users));
+    localStorage.setItem('orc_requests',JSON.stringify([]));
+  }
+  let users = JSON.parse(localStorage.getItem('orc_users'));
+  let requests = JSON.parse(localStorage.getItem('orc_requests'));
+  let currentUser = JSON.parse(localStorage.getItem('orc_currentUser') || 'null');
+  const loginTab = document.getElementById('loginTab');
+  const registerTab = document.getElementById('registerTab');
+  const adminTab = document.getElementById('adminTab');
+  const loginForm = document.getElementById('loginForm');
+  const registerForm = document.getElementById('registerForm');
+  const adminLoginForm = document.getElementById('adminLoginForm');
+  const app = document.getElementById('app');
+  const dashboard = document.getElementById('dashboard');
+  const requestsTableBody = document.querySelector('#requestsTable tbody');
+  const adminDashboard = document.getElementById('adminDashboard');
+  const adminLogoutBtn = document.getElementById('adminLogoutBtn');
+  const adminRequestsTableBody = document.querySelector('#adminRequestsTable tbody');
+  const adminStudentsTableBody = document.querySelector('#adminStudentsTable tbody');
+  const adminAddStudentForm = document.getElementById('adminAddStudentForm');
+  const logoutBtn = document.getElementById('logoutBtn');
+  loginTab.onclick = function() {
+    loginForm.style.display = '';
+    registerForm.style.display = 'none';
+    adminLoginForm.style.display = 'none';
+    loginTab.classList.add('active');
+    registerTab.classList.remove('active');
+    adminTab.classList.remove('active');
+  };
+  registerTab.onclick = function() {
+    loginForm.style.display = 'none';
+    registerForm.style.display = '';
+    adminLoginForm.style.display = 'none';
+    loginTab.classList.remove('active');
+    registerTab.classList.add('active');
+    adminTab.classList.remove('active');
+  };
+  adminTab.onclick = function() {
+    loginForm.style.display = 'none';
+    registerForm.style.display = 'none';
+    adminLoginForm.style.display = '';
+    loginTab.classList.remove('active');
+    registerTab.classList.remove('active');
+    adminTab.classList.add('active');
+  };
+  registerForm.onsubmit = function(e) {
+    e.preventDefault();
+    const name = document.getElementById('regName').value.trim();
+    const age = Number(document.getElementById('regAge').value);
+    const college = document.getElementById('regCollege').value.trim();
+    const email = document.getElementById('regEmail').value.trim().toLowerCase();
+    const pass = document.getElementById('regPass').value;
+    if(users.some(u => u.email === email)) {
+      alert("Email already in use.");
+      return;
+    }
+    const user = {id:Date.now(), name, age, college, email, pass, role:'student'};
+    users.push(user);
+    localStorage.setItem('orc_users', JSON.stringify(users));
+    alert('Registration successful. Please login.');
+    loginTab.click();
+  };
+  loginForm.onsubmit = function(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    const pass = document.getElementById('loginPass').value;
+    const user = users.find(u => u.email === email && u.pass === pass && u.role==='student');
+    if(!user){alert('Invalid student credentials!');return;}
+    currentUser = user;
+    localStorage.setItem('orc_currentUser', JSON.stringify(currentUser));
+    app.style.display = 'none';
+    dashboard.style.display = '';
+    renderRequests();
+  };
+  adminLoginForm.onsubmit = function(e){
+    e.preventDefault();
+    const email = document.getElementById('adminEmail').value.trim().toLowerCase();
+    const pass = document.getElementById('adminPass').value;
+    const user = users.find(u => u.email === email && u.pass === pass && u.role==='admin');
+    if (!user) {alert('Invalid admin credentials!');return;}
+    currentUser = user;
+    localStorage.setItem('orc_currentUser', JSON.stringify(currentUser));
+    app.style.display = 'none';
+    adminDashboard.style.display = '';
+    renderAdminTables();
+  };
+  logoutBtn.onclick = function(){
+    currentUser = null;
+    localStorage.removeItem('orc_currentUser');
+    app.style.display = '';
+    dashboard.style.display = 'none';
+    loginForm.reset();
+  };
+  adminLogoutBtn.onclick = function(){
+    currentUser = null;
+    localStorage.removeItem('orc_currentUser');
+    app.style.display = '';
+    adminDashboard.style.display = 'none';
+    adminLoginForm.reset();
+  };
+  if(currentUser){
+    if(currentUser.role==='admin'){
+      app.style.display = 'none';
+      adminDashboard.style.display = '';
+      renderAdminTables();
+    } else if(currentUser.role==='student'){
+      app.style.display = 'none';
+      dashboard.style.display = '';
+      renderRequests();
+    }
+  }
+  const concessionForm = document.getElementById('concessionForm');
+  concessionForm.onsubmit = function(e){
+    e.preventDefault();
+    const source = document.getElementById('source').value.trim();
+    const destination = document.getElementById('destination').value.trim();
+    const ticketClass = document.getElementById('ticketClass').value;
+    const duration = document.getElementById('duration').value;
+    const status = "Pending";
+    const req = {
+      id: Date.now(), user: currentUser.email,
+      source, destination, ticketClass, duration,
+      status
+    };
+    requests.push(req);
+    localStorage.setItem('orc_requests', JSON.stringify(requests));
+    renderRequests();
+    concessionForm.reset();
+    alert('Request submitted!');
+  };
+  let uploadingRequestId = null;
+  window.showPdfModal = function(id) {
+    uploadingRequestId = id;
+    document.getElementById('pdfFile').value = '';
+    document.getElementById('pdfModal').style.display = 'flex';
+  };
+  window.closePdfModal = function() {
+    document.getElementById('pdfModal').style.display = 'none';
+    uploadingRequestId = null;
+  };
+  document.getElementById('pdfForm').onsubmit = function(e){
+    e.preventDefault();
+    let fileInput = document.getElementById('pdfFile');
+    let file = fileInput.files[0];
+    if(!file || file.type !== 'application/pdf') {
+      alert('Please select a PDF file.');
+      return;
+    }
+    let reader = new FileReader();
+    reader.onload = function() {
+      let base64 = reader.result;
+      let req = requests.find(r=>r.id === uploadingRequestId);
+      if(req){
+        req.pdf = base64;
+        localStorage.setItem('orc_requests', JSON.stringify(requests));
+        renderAdminTables();
+        alert('PDF uploaded.');
+      }
+      closePdfModal();
+    };
+    reader.readAsDataURL(file);
+  };
+  function renderRequests(){
+    requestsTableBody.innerHTML = '';
+    let myReqs = requests.filter(r => r.user === currentUser.email);
+    for(let req of myReqs){
+      let pdfBtn = '';
+      if(req.status === 'Accepted' && req.pdf) {
+        pdfBtn = `<a href="${req.pdf}" download="concession_${req.id}.pdf" class="btn" style="background:#2e9b44;margin-left:10px;">Download PDF</a>`;
+      }
+      requestsTableBody.innerHTML += `<tr>
+        <td>${req.source}</td>
+        <td>${req.destination}</td>
+        <td>${req.ticketClass}</td>
+        <td>${req.duration}</td>
+        <td>${req.status}${pdfBtn}</td>
+      </tr>`;
+    }
+  }
+  function renderAdminTables(){
+    adminRequestsTableBody.innerHTML='';
+    for(let req of requests){
+      let student = users.find(u => u.email === req.user);
+      let disabled = (req.status !== 'Pending');
+      let pdfBtn = '';
+      if(req.status === 'Accepted'){
+        pdfBtn = req.pdf
+          ? `<span style="color:green;font-size:0.9em;">PDF Uploaded</span>`
+          : `<button onclick="showPdfModal(${req.id})" class="admin-action-btn" style="background:#1976d2;">Upload PDF</button>`;
+      }
+      adminRequestsTableBody.innerHTML += `<tr>
+        <td>${student ? student.name : req.user}</td>
+        <td>${req.source}</td>
+        <td>${req.destination}</td>
+        <td>${req.ticketClass}</td>
+        <td>${req.duration}</td>
+        <td>${req.status}</td>
+        <td>
+         <button class="admin-action-btn" onclick="adminApprove(${req.id})" ${disabled?'disabled':''}>Accept</button>
+         <button class="admin-action-btn decline" onclick="adminDecline(${req.id})" ${disabled?'disabled':''}>Decline</button>
+         ${pdfBtn}
+        </td>
+      </tr>`;
+    }
+    adminStudentsTableBody.innerHTML='';
+    for(let u of users.filter(u=>u.role==='student')){
+      adminStudentsTableBody.innerHTML += `<tr>
+        <td>${u.name}</td><td>${u.email}</td><td>${u.age}</td><td>${u.college}</td>
+      </tr>`;
+    }
+  }
+  window.adminApprove = function(id){
+    let req = requests.find(r=>r.id === id);
+    req.status = 'Accepted';
+    localStorage.setItem('orc_requests', JSON.stringify(requests));
+    renderAdminTables();
+    alert('Request marked as Accepted');
+  }
+  window.adminDecline = function(id){
+    let req = requests.find(r=>r.id === id);
+    req.status = 'Declined';
+    localStorage.setItem('orc_requests', JSON.stringify(requests));
+    renderAdminTables();
+    alert('Request marked as Declined');
+  }
+  adminAddStudentForm.onsubmit = function(e){
+    e.preventDefault();
+    let name = document.getElementById('admStudName').value.trim();
+    let age = parseInt(document.getElementById('admStudAge').value);
+    let college = document.getElementById('admStudCollege').value.trim();
+    let email = document.getElementById('admStudEmail').value.trim().toLowerCase();
+    let pass = document.getElementById('admStudPass').value;
+    if(users.some(u=>u.email===email)){
+      alert('A student with that email already exists.');
+      return;
+    }
+    let user = {id: Date.now(), name, age, college, email, pass, role:'student'};
+    users.push(user);
+    localStorage.setItem('orc_users', JSON.stringify(users));
+    renderAdminTables();
+    adminAddStudentForm.reset();
+    alert('Student added.');
+  }
+</script>
+</body>
+</html>
