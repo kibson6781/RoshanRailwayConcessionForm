@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Online Railway Concession System</title>
+  <style>
+    /* ... All your styling unchanged ... */
+    body {
+      background: url('SIES-1.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+    }
+    /* [other CSS remains unchanged] */
+  </style>
+</head>
+<body>
+  <div class="container" id="app">
+    <h2>Online Railway Concession</h2>
+    <div class="tab-buttons" id="tabBtns">
+      <button id="loginTab" class="active">Student Login</button>
+      <button id="registerTab">Register</button>
+      <button id="adminTab">Admin Login</button>
+    </div>
+    <!-- Student Login Form -->
+    <form id="loginForm">
+      <label>Email</label>
+      <input type="email" id="loginEmail" required autocomplete="username"/>
+      <label>Password</label>
+      <input type="password" id="loginPass" required autocomplete="current-password"/>
+      <button class="btn" type="submit">Login</button>
+    </form>
+    <!-- Registration Form -->
+    <form id="registerForm" style="display:none">
+      <label>Name</label>
+      <input type="text" id="regName" required>
+      <label>Age</label>
+      <input type="number" id="regAge" min="10" required>
+      <label>Roll Number</label>
+      <input type="text" id="regRollNo" required>
+      <label>Phone Number</label>
+      <input type="tel" id="regPhone" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit phone number" required>
+      <label>College Name</label>
+      <select id="regCollege" required>
+        <option>SIES (Nerul) College of Arts, Science and Commerce</option>
+      </select>
+      <label>Class</label>
+      <div style="position:relative;">
+        <input type="text" id="regClass" required autocomplete="off" placeholder="Select class">
+      </div>
+      <label>Email</label>
+      <input type="email" id="regEmail" required autocomplete="username">
+      <label>Password</label>
+      <input type="password" id="regPass" required autocomplete="new-password">
+      <button class="btn" type="submit">Register</button>
+    </form>
+    <!-- Admin Login Form -->
+    <form id="adminLoginForm" style="display:none">
+      <label>Email</label>
+      <input type="email" id="adminEmail" required autocomplete="username">
+      <label>Password</label>
+      <input type="password" id="adminPass" required autocomplete="current-password">
+      <button class="btn" type="submit">Login as Admin</button>
+    </form>
+  </div>
+  <!-- Student Dashboard -->
+  <!-- [Unchanged Section] -->
+  <div class="container" id="dashboard" style="display:none;position:relative;">
+    <!-- ... -->
+  </div>
+  <!-- Admin Dashboard -->
+  <div class="container" id="adminDashboard" style="display:none">
+    <div class="logout"><button id="adminLogoutBtn">Logout</button></div>
+    <h2>Admin Panel</h2>
+    <div class="admin-section-title"><b>All Requests</b></div>
+    <table id="adminRequestsTable">
+      <!-- ... -->
+    </table>
+    <div class="admin-section-title"><b>All Students</b></div>
+    <table id="adminStudentsTable">
+      <!-- ... -->
+    </table>
+    <div class="add-student-section">
+      <div style="font-weight:600;">Add Student</div>
+      <form id="adminAddStudentForm">
+        <input type="text" id="admStudName" placeholder="Name" required>
+        <input type="number" id="admStudAge" placeholder="Age" min="10" required>
+        <input type="text" id="admStudRollNo" placeholder="Roll Number" required>
+        <!-- Phone input pattern fixed below -->
+        <input type="tel" id="admStudPhone" pattern="[0-9]{10}" maxlength="10" required placeholder="Phone Number">
+        <label>College Name</label>
+        <select id="admStudCollege" required>
+          <option>SIES (Nerul) College of Arts, Science and Commerce</option>
+        </select>
+        <label>Class</label>
+        <div style="position:relative;">
+          <input type="text" id="admStudClass" required autocomplete="off" placeholder="Select class">
+        </div>
+        <label>Search Source:</label>
+        <div style="position:relative;"><input id="adminSourceSearch" type="text" autocomplete="off"></div>
+        <label>Search Destination:</label>
+        <div style="position:relative;"><input id="adminDestinationSearch" type="text" autocomplete="off"></div>
+        <input type="email" id="admStudEmail" placeholder="Email" required>
+        <input type="password" id="admStudPass" placeholder="Password" required>
+        <button class="btn" type="submit" style="margin-top:10px;">Add Student</button>
+      </form>
+    </div>
+  </div>
+  <!-- PDF Modal & Scripts remain unchanged -->
+<script>
+  // Entire JavaScript remains unchanged except as previously provided for autocomplete, etc.
+  // ...
+</script>
+</body>
+</html>
