@@ -2,178 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Online Railway Concession System</title>
   <style>
     body {
-      background: url('SIES-1.jpg') no-repeat center center fixed;
-      background-size: cover;
+      background: linear-gradient(135deg,#eaf3fb,#dbe9f7);
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
     }
     .container {
       max-width: 500px;
       margin: 32px auto;
-      background: rgba(255,255,255,0.5); /* 50% opacity */
+      background: rgba(255,255,255,0.9);
       border-radius: 14px;
-      box-shadow: none;
+      box-shadow: 0 4px 24px rgba(25,118,210,0.12);
       padding: 28px 28px 24px 28px;
       position: relative;
       z-index: 1;
     }
-    h2 {
-      text-align: center;
-      color: #1976d2;
-      margin-bottom: 20px;
-      text-shadow: 1px 1px 5px #fff,1.5px 1.5px 6px #fff;
-    }
-    .tab-buttons {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 14px;
-      gap: 8px;
-    }
+    h2 { text-align: center; color: #1976d2; margin-bottom: 20px; }
+    .tab-buttons { display: flex; justify-content: center; margin-bottom: 14px; gap: 8px; }
     .tab-buttons button {
-      padding: 7px 18px;
-      border: none; outline: none;
-      background: #e3eefa;
-      color: #1976d2;
-      font-weight: bold;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: background 0.2s;
+      padding: 7px 18px; border: none; outline: none; background: #e3eefa;
+      color: #1976d2; font-weight: bold; border-radius: 3px; cursor: pointer; transition: background 0.2s;
     }
-    .tab-buttons button.active {
-      background: #1976d2;
-      color: #fff;
-    }
+    .tab-buttons button.active { background: #1976d2; color: #fff; }
     form {
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
-      margin-top: 8px;
-      background: rgba(255,255,255,0.5);
-      border-radius: 10px;
-      padding: 10px;
+      display: flex; flex-direction: column; gap: 11px; margin-top: 8px;
+      background: rgba(255,255,255,0.7); border-radius: 10px; padding: 10px;
     }
-    label {
-      font-weight: 500;
-      margin-bottom: 4px;
-      color:#222;
-      text-shadow: 0 1px 3px #fff;
-    }
+    label { font-weight: 500; margin-bottom: 4px; color:#222; }
     input, select {
-      padding: 7px;
-      border: 1px solid #aaa;
-      border-radius: 4px;
-      font-size:1rem;
-      background: rgba(255,255,255,0.8);
-      color:#002;
+      padding: 7px; border: 1px solid #aaa; border-radius: 4px; font-size:1rem;
+      background: rgba(255,255,255,0.95); color:#002; width: 100%;
     }
     .btn {
-      margin-top: 8px;
-      background: #1976d2;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 10px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background 0.2s;
-      display: inline-block;
-      text-decoration: none;
+      margin-top: 8px; background: #1976d2; color: #fff; border: none; border-radius: 4px;
+      padding: 10px; font-size: 1rem; cursor: pointer; transition: background 0.2s;
+      display: inline-block; text-decoration: none;
     }
-    .btn:hover {
-      background: #1254a1;
-    }
+    .btn:hover { background: #1254a1; }
+    .btn:disabled { background: #b6cbe7; cursor: default; }
+    .table-wrap { overflow-x: auto; }
     table {
-      width: 100%;
-      margin-top: 18px;
-      border-collapse: collapse;
-      font-size: .98em;
-      background: rgba(255,255,255,0.5);
-      border-radius:8px;
-      overflow: hidden;
+      width: 100%; margin-top: 18px; border-collapse: collapse; font-size: .95em;
+      background: rgba(255,255,255,0.7); border-radius:8px; overflow: hidden;
     }
-    th, td {
-      border-bottom: 1px solid #eaeaea;
-      padding: 7px;
-      text-align: left;
-    }
-    th {
-      background: #e3eefa;
-      color: #1976d2;
-    }
-    .logout {
-      text-align: right;
-      margin-bottom: 3px;
-    }
-    .logout button {
-      background: none; border: none; color: #1976d2; cursor:pointer;
-      font-size: .99em;
-    }
+    th, td { border-bottom: 1px solid #eaeaea; padding: 7px; text-align: left; white-space: nowrap; }
+    th { background: #e3eefa; color: #1976d2; }
+    .logout { text-align: right; margin-bottom: 3px; }
+    .logout button { background: none; border: none; color: #1976d2; cursor:pointer; font-size: .99em; }
     .admin-action-btn {
-      margin-right: 5px;
-      padding: 3px 9px;
-      font-size: .92em;
-      border-radius: 3px;
-      border: none;
-      color: #fff;
-      cursor: pointer;
-      background: #2196f3;
-      transition: background .15s;
+      margin-right: 5px; padding: 3px 9px; font-size: .92em; border-radius: 3px; border: none;
+      color: #fff; cursor: pointer; background: #2196f3; transition: background .15s;
     }
-    .admin-action-btn.decline {background: #e74c3c;}
-    .admin-action-btn:disabled {background: #b6cbe7; cursor:default;}
-    .admin-section-title {margin-top:15px; font-size:1.06em; color:#1976d2;}
-    .add-student-section {margin-top:24px; padding:16px; background:rgba(255,255,255,0.5); border-radius:8px;}
+    .admin-action-btn.decline { background: #e74c3c; }
+    .admin-action-btn:disabled { background: #b6cbe7; cursor:default; }
+    .admin-section-title { margin-top:15px; font-size:1.06em; color:#1976d2; }
+    .add-student-section { margin-top:24px; padding:16px; background:rgba(255,255,255,0.7); border-radius:8px; }
+    .status-banner { font-size: .85em; text-align: center; padding: 6px 10px; border-radius: 6px; margin-bottom: 12px; }
+    .status-banner.ok { background:#e5f7ea; color:#218838; }
+    .status-banner.warn { background:#fdecea; color:#c0392b; }
     #pdfModal {
-      display:none;
-      position:fixed;
-      top:0; left:0; width:100vw; height:100vh;
-      background:#0007;
-      z-index:1000;
-      align-items:center;
-      justify-content:center;
+      display:none; position:fixed; top:0; left:0; width:100vw; height:100vh;
+      background:#0007; z-index:1000; align-items:center; justify-content:center;
     }
     #pdfModal .modalbox {
-      background: white;
-      border-radius: 14px;
-      padding: 30px 24px 24px 24px;
-      margin:auto;
-      width:330px;
-      box-shadow:0 2px 16px #1976d255;
-      text-align:center;
+      background: white; border-radius: 14px; padding: 30px 24px 24px 24px; margin:auto;
+      width:330px; box-shadow:0 2px 16px #1976d255; text-align:center;
     }
     #pdfModal input[type=file]{ margin-bottom: 12px; width:99%; }
     .autocomplete-items {
-      position: absolute;
-      border: 1px solid #d4d4d4;
-      border-top: none;
-      z-index: 99;
-      top: 100%; left: 0; right: 0;
-      background: white;
-      max-height:180px; overflow-y:auto;
-      font-size: 1rem;
+      position: absolute; border: 1px solid #d4d4d4; border-top: none; z-index: 99;
+      top: 100%; left: 0; right: 0; background: white; max-height:180px; overflow-y:auto; font-size: 1rem;
     }
-    .autocomplete-items div {
-      padding: 8px;
-      cursor: pointer;
-      background: #fff;
-    }
-    .autocomplete-items div:hover {
-      background: #e3eefa;
-    }
+    .autocomplete-items div { padding: 8px; cursor: pointer; background: #fff; }
+    .autocomplete-items div:hover { background: #e3eefa; }
+    .spinner-row { text-align:center; padding: 10px; color:#1976d2; font-size:.9em; }
     @media (max-width: 600px){
-      .container { padding: 13px 2px; max-width: 98vw;}
-      table, th, td { font-size: .91em;}
-      #pdfModal .modalbox{width:95vw;}
+      .container { padding: 13px 10px; max-width: 98vw; }
+      table, th, td { font-size: .88em; }
+      #pdfModal .modalbox{ width:88vw; }
     }
   </style>
 </head>
 <body>
   <div class="container" id="app">
     <h2>Online Railway Concession</h2>
+    <div id="connStatus" class="status-banner warn">Connecting to Firebase…</div>
     <div class="tab-buttons" id="tabBtns">
       <button id="loginTab" class="active">Student Login</button>
       <button id="registerTab">Register</button>
@@ -217,6 +133,7 @@
       <button class="btn" type="submit">Login as Admin</button>
     </form>
   </div>
+
   <div class="container" id="dashboard" style="display:none;position:relative;">
     <h2>Apply for Concession</h2>
     <div class="logout"><button id="logoutBtn">Logout</button></div>
@@ -240,35 +157,31 @@
       <button class="btn" type="submit">Request Pass</button>
     </form>
     <h3 style="margin-top:28px;font-size:1.07em; color:#1976d2;">Your Requests</h3>
-    <table id="requestsTable">
-      <thead>
-        <tr><th>Source</th><th>Destination</th><th>Class</th><th>Duration</th><th>Status / PDF</th></tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="table-wrap">
+      <table id="requestsTable">
+        <thead><tr><th>Source</th><th>Destination</th><th>Class</th><th>Duration</th><th>Status / PDF</th></tr></thead>
+        <tbody><tr><td colspan="5" class="spinner-row">Loading…</td></tr></tbody>
+      </table>
+    </div>
   </div>
+
   <div class="container" id="adminDashboard" style="display:none">
     <div class="logout"><button id="adminLogoutBtn">Logout</button></div>
     <h2>Admin Panel</h2>
     <div class="admin-section-title"><b>All Requests</b></div>
-    <table id="adminRequestsTable">
-      <thead>
-        <tr>
-          <th>Student</th><th>Source</th><th>Destination</th><th>Class</th>
-          <th>Duration</th><th>Status</th><th>Action</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="table-wrap">
+      <table id="adminRequestsTable">
+        <thead><tr><th>Student</th><th>Source</th><th>Destination</th><th>Class</th><th>Duration</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody><tr><td colspan="7" class="spinner-row">Loading…</td></tr></tbody>
+      </table>
+    </div>
     <div class="admin-section-title"><b>All Students</b></div>
-    <table id="adminStudentsTable">
-      <thead>
-        <tr>
-          <th>Name</th><th>Email</th><th>Age</th><th>College</th><th>Roll No</th><th>Phone</th><th>Class</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <div class="table-wrap">
+      <table id="adminStudentsTable">
+        <thead><tr><th>Name</th><th>Email</th><th>Age</th><th>College</th><th>Roll No</th><th>Phone</th><th>Class</th></tr></thead>
+        <tbody><tr><td colspan="7" class="spinner-row">Loading…</td></tr></tbody>
+      </table>
+    </div>
     <div class="add-student-section">
       <div style="font-weight:600;">Add Student</div>
       <form id="adminAddStudentForm">
@@ -294,6 +207,7 @@
       </form>
     </div>
   </div>
+
   <div id="pdfModal">
     <div class="modalbox">
       <h3>Upload PDF for Request</h3>
@@ -304,7 +218,59 @@
       </form>
     </div>
   </div>
-<script>
+
+  <!-- ====================== FIREBASE SETUP ======================
+    1. Go to https://console.firebase.google.com -> Create a project.
+    2. Build > Firestore Database > Create database (start in production mode) > pick a region.
+    3. Build > Storage > Get started (used for PDF uploads).
+    4. Project settings (gear icon) > General > "Your apps" > Add app > Web (</>) > register it.
+       Firebase gives you a config object — paste its values into firebaseConfig below.
+    5. Firestore Rules tab, paste:
+         rules_version = '2';
+         service cloud.firestore {
+           match /databases/{database}/documents {
+             match /users/{email} { allow read, write: if true; }
+             match /requests/{id} { allow read, write: if true; }
+           }
+         }
+       (This is fully open, matching this demo's simple email/password login — see the
+       security note in chat. Lock this down before using real student data.)
+    6. Storage Rules tab, paste:
+         rules_version = '2';
+         service firebase.storage {
+           match /b/{bucket}/o {
+             match /concession_pdfs/{fileName} { allow read, write: if true; }
+           }
+         }
+    7. Push this file to a GitHub repo, enable GitHub Pages (Settings > Pages > Deploy from branch),
+       and open the published URL.
+  ======================================================================= -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, doc, getDoc, setDoc, updateDoc,
+    collection, addDoc, getDocs, query, where
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getStorage, ref, uploadBytes, getDownloadURL
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+  // ---- PASTE YOUR FIREBASE CONFIG HERE ----
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT_ID.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
+  // ------------------------------------------
+
+  const firebaseApp = initializeApp(firebaseConfig);
+  const db = getFirestore(firebaseApp);
+  const storage = getStorage(firebaseApp);
+
+  /* ---------- static data ---------- */
   const stationNames = [
     "Churchgate","Mumbai Central","Dadar","Bandra","Andheri","Borivali","Vasai Road","Virar","Dahanu Road","Mira Road","Kandivali","Malad",
     "Goregaon","Jogeshwari","Santacruz","Vile Parle","Thane","Kalyan Junction","Kurla","Ghatkopar","Chembur","Wadala Road","Panvel",
@@ -315,25 +281,15 @@
     "Diva","Mulund","Nahur","Kopar","Thakurli"
   ];
   const courseOptions = [
-    "BSc Data Science",
-    "BSc Computer Science",
-    "BSc Information Technology",
-    "BSc Artificial Intelligence",
-    "Bachelor of Science",
-    "Bachelor of Commerce",
-    "Bachelor of Arts",
-    "MAE T Masters",
-    "MSc Data Science",
-    "MSc Computer Science",
-    "MSc Information Technology",
-    "MSc Artificial Intelligence",
-    "Master of Science",
-    "Master of Commerce",
-    "Master of Arts"
+    "BSc Data Science","BSc Computer Science","BSc Information Technology","BSc Artificial Intelligence",
+    "Bachelor of Science","Bachelor of Commerce","Bachelor of Arts","MAE T Masters",
+    "MSc Data Science","MSc Computer Science","MSc Information Technology","MSc Artificial Intelligence",
+    "Master of Science","Master of Commerce","Master of Arts"
   ];
+
   function autocomplete(inp, arr) {
     let currentFocus;
-    inp.addEventListener("input", function(e) {
+    inp.addEventListener("input", function (e) {
       let a, b, val = this.value;
       closeAllLists();
       if (!val) return false;
@@ -347,7 +303,7 @@
           b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
           b.innerHTML += arr[i].substr(val.length);
           b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-          b.addEventListener("click", function(e) {
+          b.addEventListener("click", function (e) {
             inp.value = this.getElementsByTagName("input")[0].value;
             closeAllLists();
           });
@@ -355,7 +311,7 @@
         }
       }
     });
-    inp.addEventListener("keydown", function(e) {
+    inp.addEventListener("keydown", function (e) {
       let x = this.parentNode.querySelectorAll(".autocomplete-items div");
       if (x.length === 0) return;
       if (e.keyCode == 40) { currentFocus++; addActive(x); }
@@ -372,40 +328,83 @@
       if (currentFocus < 0) currentFocus = (x.length - 1);
       x[currentFocus].classList.add("autocomplete-active");
     }
-    function removeActive(x) {
-      for (let i = 0; i < x.length; i++) x[i].classList.remove("autocomplete-active");
-    }
+    function removeActive(x) { for (let i = 0; i < x.length; i++) x[i].classList.remove("autocomplete-active"); }
     function closeAllLists(elmnt) {
       let x = document.querySelectorAll(".autocomplete-items");
       for (let i = 0; i < x.length; i++) if (elmnt != x[i] && elmnt != inp) x[i].parentNode.removeChild(x[i]);
     }
     document.addEventListener("click", function (e) { closeAllLists(e.target); });
   }
-  document.addEventListener('DOMContentLoaded', function(){
-    autocomplete(document.getElementById("source"), stationNames);
-    autocomplete(document.getElementById("destination"), stationNames);
-    if(document.getElementById("adminSourceSearch")) autocomplete(document.getElementById("adminSourceSearch"), stationNames);
-    if(document.getElementById("adminDestinationSearch")) autocomplete(document.getElementById("adminDestinationSearch"), stationNames);
-    if(document.getElementById('admStudCollege')) {
-      document.getElementById('admStudCollege').innerHTML = '<option>SIES (Nerul) College of Arts, Science and Commerce</option>';
+
+  /* ---------- Firestore-backed storage helpers ---------- */
+  function emailKey(email) { return String(email).trim().toLowerCase(); }
+
+  async function seedDefaults() {
+    const adminRef = doc(db, "users", emailKey("admin@college.com"));
+    const adminSnap = await getDoc(adminRef);
+    if (!adminSnap.exists()) {
+      await setDoc(adminRef, {
+        name: "Admin", age: 0, college: "- -", role: "admin",
+        rollNo: "", phone: "", className: "",
+        email: "admin@college.com", pass: "admin123"
+      });
     }
-    if(document.getElementById('regCollege')) {
-      document.getElementById('regCollege').innerHTML = '<option>SIES (Nerul) College of Arts, Science and Commerce</option>';
+    const demoRef = doc(db, "users", emailKey("student@demo.com"));
+    const demoSnap = await getDoc(demoRef);
+    if (!demoSnap.exists()) {
+      await setDoc(demoRef, {
+        name: "Demo Student", age: 20, college: "SIES (Nerul) College of Arts, Science and Commerce",
+        role: "student", rollNo: "", phone: "", className: "",
+        email: "student@demo.com", pass: "student"
+      });
     }
-    autocomplete(document.getElementById("regClass"), courseOptions);
-    autocomplete(document.getElementById("admStudClass"), courseOptions);
-  });
-  if(!localStorage.getItem('orc_users')) {
-    let users = [
-      {id: 1, email:'admin@college.com', pass:'admin123', name:'Admin', age:0, college:'- -', role:'admin', rollNo: '', phone: '', className: ''},
-      {id: 2, email:'student@demo.com', pass:'student', name:'Demo Student', age:20, college:'SIES (Nerul) College of Arts, Science and Commerce', role:'student', rollNo: '', phone: '', className: ''}
-    ];
-    localStorage.setItem('orc_users', JSON.stringify(users));
-    localStorage.setItem('orc_requests',JSON.stringify([]));
   }
-  let users = JSON.parse(localStorage.getItem('orc_users'));
-  let requests = JSON.parse(localStorage.getItem('orc_requests'));
-  let currentUser = JSON.parse(localStorage.getItem('orc_currentUser') || 'null');
+
+  async function getUser(email) {
+    const snap = await getDoc(doc(db, "users", emailKey(email)));
+    return snap.exists() ? snap.data() : null;
+  }
+  async function setUser(userObj) {
+    await setDoc(doc(db, "users", emailKey(userObj.email)), userObj);
+  }
+  async function listStudents() {
+    const q = query(collection(db, "users"), where("role", "==", "student"));
+    const snap = await getDocs(q);
+    return snap.docs.map(d => d.data());
+  }
+  async function addRequest(reqObj) {
+    const ref = await addDoc(collection(db, "requests"), reqObj);
+    return ref.id;
+  }
+  async function listMyRequests(email) {
+    const q = query(collection(db, "requests"), where("userEmail", "==", email));
+    const snap = await getDocs(q);
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  }
+  async function listAllRequests() {
+    const snap = await getDocs(collection(db, "requests"));
+    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+  }
+  async function updateRequest(id, patch) {
+    await updateDoc(doc(db, "requests", id), patch);
+  }
+  async function uploadPdf(requestId, file) {
+    const storageRef = ref(storage, `concession_pdfs/${requestId}_${Date.now()}.pdf`);
+    await uploadBytes(storageRef, file);
+    return await getDownloadURL(storageRef);
+  }
+
+  /* ---------- session (per-browser convenience only) ---------- */
+  function getSession() {
+    try { return JSON.parse(localStorage.getItem('orc_currentUser') || 'null'); }
+    catch (e) { return null; }
+  }
+  function setSession(user) { try { localStorage.setItem('orc_currentUser', JSON.stringify(user)); } catch (e) {} }
+  function clearSession() { try { localStorage.removeItem('orc_currentUser'); } catch (e) {} }
+
+  let currentUser = null;
+  let dbReady = false;
+
   const loginTab = document.getElementById('loginTab');
   const registerTab = document.getElementById('registerTab');
   const adminTab = document.getElementById('adminTab');
@@ -421,32 +420,58 @@
   const adminStudentsTableBody = document.querySelector('#adminStudentsTable tbody');
   const adminAddStudentForm = document.getElementById('adminAddStudentForm');
   const logoutBtn = document.getElementById('logoutBtn');
-  loginTab.onclick = function() {
-    loginForm.style.display = '';
-    registerForm.style.display = 'none';
-    adminLoginForm.style.display = 'none';
-    loginTab.classList.add('active');
-    registerTab.classList.remove('active');
-    adminTab.classList.remove('active');
+  const connStatus = document.getElementById('connStatus');
+
+  document.addEventListener('DOMContentLoaded', function () {
+    autocomplete(document.getElementById("source"), stationNames);
+    autocomplete(document.getElementById("destination"), stationNames);
+    if (document.getElementById("adminSourceSearch")) autocomplete(document.getElementById("adminSourceSearch"), stationNames);
+    if (document.getElementById("adminDestinationSearch")) autocomplete(document.getElementById("adminDestinationSearch"), stationNames);
+    autocomplete(document.getElementById("regClass"), courseOptions);
+    autocomplete(document.getElementById("admStudClass"), courseOptions);
+  });
+
+  (async function init() {
+    try {
+      await seedDefaults();
+      dbReady = true;
+      connStatus.textContent = "Connected — data is saved to Firebase and shared across everyone using this app.";
+      connStatus.className = "status-banner ok";
+      setTimeout(() => { connStatus.style.display = 'none'; }, 3500);
+    } catch (err) {
+      console.error(err);
+      dbReady = false;
+      connStatus.textContent = "Could not connect to Firebase. Check firebaseConfig and your Firestore rules.";
+      connStatus.className = "status-banner warn";
+    }
+
+    currentUser = getSession();
+    if (currentUser && dbReady) {
+      if (currentUser.role === 'admin') {
+        app.style.display = 'none'; adminDashboard.style.display = ''; await renderAdminTables();
+      } else if (currentUser.role === 'student') {
+        app.style.display = 'none'; dashboard.style.display = ''; await renderRequests();
+      }
+    }
+  })();
+
+  loginTab.onclick = function () {
+    loginForm.style.display = ''; registerForm.style.display = 'none'; adminLoginForm.style.display = 'none';
+    loginTab.classList.add('active'); registerTab.classList.remove('active'); adminTab.classList.remove('active');
   };
-  registerTab.onclick = function() {
-    loginForm.style.display = 'none';
-    registerForm.style.display = '';
-    adminLoginForm.style.display = 'none';
-    loginTab.classList.remove('active');
-    registerTab.classList.add('active');
-    adminTab.classList.remove('active');
+  registerTab.onclick = function () {
+    loginForm.style.display = 'none'; registerForm.style.display = ''; adminLoginForm.style.display = 'none';
+    loginTab.classList.remove('active'); registerTab.classList.add('active'); adminTab.classList.remove('active');
   };
-  adminTab.onclick = function() {
-    loginForm.style.display = 'none';
-    registerForm.style.display = 'none';
-    adminLoginForm.style.display = '';
-    loginTab.classList.remove('active');
-    registerTab.classList.remove('active');
-    adminTab.classList.add('active');
+  adminTab.onclick = function () {
+    loginForm.style.display = 'none'; registerForm.style.display = 'none'; adminLoginForm.style.display = '';
+    loginTab.classList.remove('active'); registerTab.classList.remove('active'); adminTab.classList.add('active');
   };
-  registerForm.onsubmit = function(e) {
+
+  registerForm.onsubmit = async function (e) {
     e.preventDefault();
+    if (!dbReady) { alert('Not connected to Firebase yet — please wait and try again.'); return; }
+    const submitBtn = registerForm.querySelector('button[type=submit]');
     const name = document.getElementById('regName').value.trim();
     const age = Number(document.getElementById('regAge').value);
     const rollNo = document.getElementById('regRollNo').value.trim();
@@ -455,186 +480,199 @@
     const className = document.getElementById('regClass').value.trim();
     const email = document.getElementById('regEmail').value.trim().toLowerCase();
     const pass = document.getElementById('regPass').value;
-    if(users.some(u => u.email === email)) {
-      alert("Email already in use.");
-      return;
+    if (!/^\d{10}$/.test(phone)) { alert("Phone number must be 10 digits."); return; }
+    submitBtn.disabled = true;
+    try {
+      const existing = await getUser(email);
+      if (existing) { alert("Email already in use."); return; }
+      await setUser({ name, age, rollNo, phone, college, className, email, pass, role: 'student' });
+      alert('Registration successful. Please login.');
+      loginTab.click();
+      registerForm.reset();
+    } catch (err) {
+      console.error(err);
+      alert('Could not register right now. Please try again.');
+    } finally {
+      submitBtn.disabled = false;
     }
-    // JS validation to ensure exactly 10 digits
-    if(!/^\d{10}$/.test(phone)){
-      alert("Phone number must be 10 digits.");
-      return;
-    }
-    const user = {id:Date.now(), name, age, rollNo, phone, college, className, email, pass, role:'student'};
-    users.push(user);
-    localStorage.setItem('orc_users', JSON.stringify(users));
-    alert('Registration successful. Please login.');
-    loginTab.click();
   };
-  loginForm.onsubmit = function(e) {
+
+  loginForm.onsubmit = async function (e) {
     e.preventDefault();
+    if (!dbReady) { alert('Not connected to Firebase yet — please wait and try again.'); return; }
     const email = document.getElementById('loginEmail').value.trim().toLowerCase();
     const pass = document.getElementById('loginPass').value;
-    const user = users.find(u => u.email === email && u.pass === pass && u.role==='student');
-    if(!user){alert('Invalid student credentials!');return;}
-    currentUser = user;
-    localStorage.setItem('orc_currentUser', JSON.stringify(currentUser));
-    app.style.display = 'none';
-    dashboard.style.display = '';
-    renderRequests();
+    try {
+      const user = await getUser(email);
+      if (!user || user.pass !== pass || user.role !== 'student') { alert('Invalid student credentials!'); return; }
+      currentUser = user;
+      setSession(currentUser);
+      app.style.display = 'none'; dashboard.style.display = '';
+      await renderRequests();
+    } catch (err) {
+      console.error(err);
+      alert('Could not log in right now. Please try again.');
+    }
   };
-  adminLoginForm.onsubmit = function(e){
+
+  adminLoginForm.onsubmit = async function (e) {
     e.preventDefault();
+    if (!dbReady) { alert('Not connected to Firebase yet — please wait and try again.'); return; }
     const email = document.getElementById('adminEmail').value.trim().toLowerCase();
     const pass = document.getElementById('adminPass').value;
-    const user = users.find(u => u.email === email && u.pass === pass && u.role==='admin');
-    if (!user) {alert('Invalid admin credentials!');return;}
-    currentUser = user;
-    localStorage.setItem('orc_currentUser', JSON.stringify(currentUser));
-    app.style.display = 'none';
-    adminDashboard.style.display = '';
-    renderAdminTables();
+    try {
+      const user = await getUser(email);
+      if (!user || user.pass !== pass || user.role !== 'admin') { alert('Invalid admin credentials!'); return; }
+      currentUser = user;
+      setSession(currentUser);
+      app.style.display = 'none'; adminDashboard.style.display = '';
+      await renderAdminTables();
+    } catch (err) {
+      console.error(err);
+      alert('Could not log in right now. Please try again.');
+    }
   };
-  logoutBtn.onclick = function(){
-    currentUser = null;
-    localStorage.removeItem('orc_currentUser');
-    app.style.display = '';
-    dashboard.style.display = 'none';
+
+  logoutBtn.onclick = function () {
+    currentUser = null; clearSession();
+    app.style.display = ''; dashboard.style.display = 'none';
     loginForm.reset();
   };
-  adminLogoutBtn.onclick = function(){
-    currentUser = null;
-    localStorage.removeItem('orc_currentUser');
-    app.style.display = '';
-    adminDashboard.style.display = 'none';
+  adminLogoutBtn.onclick = function () {
+    currentUser = null; clearSession();
+    app.style.display = ''; adminDashboard.style.display = 'none';
     adminLoginForm.reset();
   };
-  if(currentUser){
-    if(currentUser.role==='admin'){
-      app.style.display = 'none';
-      adminDashboard.style.display = '';
-      renderAdminTables();
-    } else if(currentUser.role==='student'){
-      app.style.display = 'none';
-      dashboard.style.display = '';
-      renderRequests();
-    }
-  }
+
   const concessionForm = document.getElementById('concessionForm');
-  concessionForm.onsubmit = function(e){
+  concessionForm.onsubmit = async function (e) {
     e.preventDefault();
+    if (!dbReady) { alert('Not connected to Firebase yet — please wait and try again.'); return; }
+    const submitBtn = concessionForm.querySelector('button[type=submit]');
     const source = document.getElementById('source').value.trim();
     const destination = document.getElementById('destination').value.trim();
     const ticketClass = document.getElementById('ticketClass').value;
     const duration = document.getElementById('duration').value;
-    const status = "Pending";
-    const req = {
-      id: Date.now(), user: currentUser.email,
-      source, destination, ticketClass, duration,
-      status
-    };
-    requests.push(req);
-    localStorage.setItem('orc_requests', JSON.stringify(requests));
-    renderRequests();
-    concessionForm.reset();
-    alert('Request submitted!');
+    submitBtn.disabled = true;
+    try {
+      await addRequest({
+        userEmail: currentUser.email, source, destination, ticketClass, duration,
+        status: 'Pending', createdAt: new Date().toISOString()
+      });
+      await renderRequests();
+      concessionForm.reset();
+      alert('Request submitted!');
+    } catch (err) {
+      console.error(err);
+      alert('Could not submit the request right now. Please try again.');
+    } finally {
+      submitBtn.disabled = false;
+    }
   };
+
   let uploadingRequestId = null;
-  window.showPdfModal = function(id) {
+  window.showPdfModal = function (id) {
     uploadingRequestId = id;
     document.getElementById('pdfFile').value = '';
     document.getElementById('pdfModal').style.display = 'flex';
   };
-  window.closePdfModal = function() {
+  window.closePdfModal = function () {
     document.getElementById('pdfModal').style.display = 'none';
     uploadingRequestId = null;
   };
-  document.getElementById('pdfForm').onsubmit = function(e){
+  document.getElementById('pdfForm').onsubmit = async function (e) {
     e.preventDefault();
-    let fileInput = document.getElementById('pdfFile');
-    let file = fileInput.files[0];
-    if(!file || file.type !== 'application/pdf') {
-      alert('Please select a PDF file.');
-      return;
-    }
-    let reader = new FileReader();
-    reader.onload = function() {
-      let base64 = reader.result;
-      let req = requests.find(r=>r.id === uploadingRequestId);
-      if(req){
-        req.pdf = base64;
-        localStorage.setItem('orc_requests', JSON.stringify(requests));
-        renderAdminTables();
-        alert('PDF uploaded.');
-      }
+    let file = document.getElementById('pdfFile').files[0];
+    if (!file || file.type !== 'application/pdf') { alert('Please select a PDF file.'); return; }
+    try {
+      const url = await uploadPdf(uploadingRequestId, file);
+      await updateRequest(uploadingRequestId, { pdfUrl: url });
+      await renderAdminTables();
+      alert('PDF uploaded.');
+    } catch (err) {
+      console.error(err);
+      alert('Could not upload the PDF right now.');
+    } finally {
       closePdfModal();
-    };
-    reader.readAsDataURL(file);
+    }
   };
-  function renderRequests(){
-    requestsTableBody.innerHTML = '';
-    let myReqs = requests.filter(r => r.user === currentUser.email);
-    for(let req of myReqs){
-      let pdfBtn = '';
-      if(req.status === 'Accepted' && req.pdf) {
-        pdfBtn = `<a href="${req.pdf}" download="concession_${req.id}.pdf" class="btn" style="background:#2e9b44;margin-left:10px;">Download PDF</a>`;
+
+  async function renderRequests() {
+    requestsTableBody.innerHTML = '<tr><td colspan="5" class="spinner-row">Loading…</td></tr>';
+    try {
+      const myReqs = await listMyRequests(currentUser.email);
+      requestsTableBody.innerHTML = '';
+      if (myReqs.length === 0) { requestsTableBody.innerHTML = '<tr><td colspan="5" class="spinner-row">No requests yet.</td></tr>'; return; }
+      for (let req of myReqs) {
+        let pdfBtn = '';
+        if (req.status === 'Accepted' && req.pdfUrl) {
+          pdfBtn = `<a href="${req.pdfUrl}" target="_blank" class="btn" style="background:#2e9b44;margin-left:10px;">Download PDF</a>`;
+        }
+        requestsTableBody.innerHTML += `<tr>
+          <td>${req.source}</td><td>${req.destination}</td><td>${req.ticketClass}</td><td>${req.duration}</td>
+          <td>${req.status}${pdfBtn}</td>
+        </tr>`;
       }
-      requestsTableBody.innerHTML += `<tr>
-        <td>${req.source}</td>
-        <td>${req.destination}</td>
-        <td>${req.ticketClass}</td>
-        <td>${req.duration}</td>
-        <td>${req.status}${pdfBtn}</td>
-      </tr>`;
+    } catch (err) {
+      console.error(err);
+      requestsTableBody.innerHTML = '<tr><td colspan="5" class="spinner-row">Could not load requests.</td></tr>';
     }
   }
-  function renderAdminTables(){
-    adminRequestsTableBody.innerHTML='';
-    for(let req of requests){
-      let student = users.find(u => u.email === req.user);
-      let disabled = (req.status !== 'Pending');
-      let pdfBtn = '';
-      if(req.status === 'Accepted'){
-        pdfBtn = req.pdf
-          ? `<span style="color:green;font-size:0.9em;">PDF Uploaded</span>`
-          : `<button onclick="showPdfModal(${req.id})" class="admin-action-btn" style="background:#1976d2;">Upload PDF</button>`;
+
+  async function renderAdminTables() {
+    adminRequestsTableBody.innerHTML = '<tr><td colspan="7" class="spinner-row">Loading…</td></tr>';
+    adminStudentsTableBody.innerHTML = '<tr><td colspan="7" class="spinner-row">Loading…</td></tr>';
+    try {
+      const [allReqs, students] = await Promise.all([listAllRequests(), listStudents()]);
+
+      adminRequestsTableBody.innerHTML = '';
+      if (allReqs.length === 0) adminRequestsTableBody.innerHTML = '<tr><td colspan="7" class="spinner-row">No requests yet.</td></tr>';
+      for (let req of allReqs) {
+        const student = students.find(u => u.email === req.userEmail);
+        const disabled = (req.status !== 'Pending');
+        let pdfBtn = '';
+        if (req.status === 'Accepted') {
+          pdfBtn = req.pdfUrl
+            ? `<span style="color:green;font-size:0.9em;">PDF Uploaded</span>`
+            : `<button onclick="showPdfModal('${req.id}')" class="admin-action-btn" style="background:#1976d2;">Upload PDF</button>`;
+        }
+        adminRequestsTableBody.innerHTML += `<tr>
+          <td>${student ? student.name : req.userEmail}</td>
+          <td>${req.source}</td><td>${req.destination}</td><td>${req.ticketClass}</td><td>${req.duration}</td><td>${req.status}</td>
+          <td>
+           <button class="admin-action-btn" onclick="adminApprove('${req.id}')" ${disabled ? 'disabled' : ''}>Accept</button>
+           <button class="admin-action-btn decline" onclick="adminDecline('${req.id}')" ${disabled ? 'disabled' : ''}>Decline</button>
+           ${pdfBtn}
+          </td>
+        </tr>`;
       }
-      adminRequestsTableBody.innerHTML += `<tr>
-        <td>${student ? student.name : req.user}</td>
-        <td>${req.source}</td>
-        <td>${req.destination}</td>
-        <td>${req.ticketClass}</td>
-        <td>${req.duration}</td>
-        <td>${req.status}</td>
-        <td>
-         <button class="admin-action-btn" onclick="adminApprove(${req.id})" ${disabled?'disabled':''}>Accept</button>
-         <button class="admin-action-btn decline" onclick="adminDecline(${req.id})" ${disabled?'disabled':''}>Decline</button>
-         ${pdfBtn}
-        </td>
-      </tr>`;
-    }
-    adminStudentsTableBody.innerHTML='';
-    for(let u of users.filter(u=>u.role==='student')){
-      adminStudentsTableBody.innerHTML += `<tr>
-        <td>${u.name}</td><td>${u.email}</td><td>${u.age}</td><td>${u.college}</td><td>${u.rollNo || ''}</td><td>${u.phone || ''}</td><td>${u.className || ''}</td>
-      </tr>`;
+
+      adminStudentsTableBody.innerHTML = '';
+      if (students.length === 0) adminStudentsTableBody.innerHTML = '<tr><td colspan="7" class="spinner-row">No students yet.</td></tr>';
+      for (let u of students) {
+        adminStudentsTableBody.innerHTML += `<tr>
+          <td>${u.name}</td><td>${u.email}</td><td>${u.age}</td><td>${u.college}</td><td>${u.rollNo || ''}</td><td>${u.phone || ''}</td><td>${u.className || ''}</td>
+        </tr>`;
+      }
+    } catch (err) {
+      console.error(err);
+      adminRequestsTableBody.innerHTML = '<tr><td colspan="7" class="spinner-row">Could not load requests.</td></tr>';
+      adminStudentsTableBody.innerHTML = '<tr><td colspan="7" class="spinner-row">Could not load students.</td></tr>';
     }
   }
-  window.adminApprove = function(id){
-    let req = requests.find(r=>r.id === id);
-    req.status = 'Accepted';
-    localStorage.setItem('orc_requests', JSON.stringify(requests));
-    renderAdminTables();
-    alert('Request marked as Accepted');
-  }
-  window.adminDecline = function(id){
-    let req = requests.find(r=>r.id === id);
-    req.status = 'Declined';
-    localStorage.setItem('orc_requests', JSON.stringify(requests));
-    renderAdminTables();
-    alert('Request marked as Declined');
-  }
-  adminAddStudentForm.onsubmit = function(e){
+
+  window.adminApprove = async function (id) {
+    try { await updateRequest(id, { status: 'Accepted' }); await renderAdminTables(); alert('Request marked as Accepted'); }
+    catch (err) { console.error(err); alert('Could not update the request right now.'); }
+  };
+  window.adminDecline = async function (id) {
+    try { await updateRequest(id, { status: 'Declined' }); await renderAdminTables(); alert('Request marked as Declined'); }
+    catch (err) { console.error(err); alert('Could not update the request right now.'); }
+  };
+
+  adminAddStudentForm.onsubmit = async function (e) {
     e.preventDefault();
+    if (!dbReady) { alert('Not connected to Firebase yet — please wait and try again.'); return; }
     let name = document.getElementById('admStudName').value.trim();
     let age = parseInt(document.getElementById('admStudAge').value);
     let rollNo = document.getElementById('admStudRollNo').value.trim();
@@ -643,22 +681,19 @@
     let className = document.getElementById('admStudClass').value.trim();
     let email = document.getElementById('admStudEmail').value.trim().toLowerCase();
     let pass = document.getElementById('admStudPass').value;
-    if(users.some(u=>u.email===email)){
-      alert('A student with that email already exists.');
-      return;
+    if (!/^\d{10}$/.test(phone)) { alert("Phone number must be 10 digits."); return; }
+    try {
+      const existing = await getUser(email);
+      if (existing) { alert('A student with that email already exists.'); return; }
+      await setUser({ name, age, rollNo, phone, college, className, email, pass, role: 'student' });
+      await renderAdminTables();
+      adminAddStudentForm.reset();
+      alert('Student added.');
+    } catch (err) {
+      console.error(err);
+      alert('Could not add the student right now.');
     }
-    // JS validation to ensure exactly 10 digits
-    if(!/^\d{10}$/.test(phone)){
-      alert("Phone number must be 10 digits.");
-      return;
-    }
-    let user = {id: Date.now(), name, age, rollNo, phone, college, className, email, pass, role:'student'};
-    users.push(user);
-    localStorage.setItem('orc_users', JSON.stringify(users));
-    renderAdminTables();
-    adminAddStudentForm.reset();
-    alert('Student added.');
-  }
+  };
 </script>
 </body>
 </html>
